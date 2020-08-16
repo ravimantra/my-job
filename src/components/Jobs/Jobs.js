@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import Table from 'react-bootstrap/Table';
 import getAllJobsAction from './getAllJobsAction';
 import addNewJobAction from './addNewJobAction';
 import lang from '../../localLang';
 
 const Jobs = ({
   getAllJobs,
-  allJobs,
+  allJobs = [],
   addNewJob
 }) => {
   const { JOB_TITLE, JOB_LOCATION } = lang;
@@ -18,37 +19,39 @@ const Jobs = ({
   const submitJob = () => addNewJob({ title, location })
   return (
     <div>
-      <table>
-      <tbody>
-        <tr>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
           <th>#</th>
           <th>{JOB_TITLE}</th>
           <th>{JOB_LOCATION}</th>
-        </tr>
-        {
-          allJobs.length && allJobs.map((job, index) => (
-            <tr key={index}>
-              <td>
-                {index}
-              </td>
-              <td>
-                {job.title}
-              </td>
-              <td>
-                {job.location}
-              </td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            allJobs.length && allJobs.map((job, index) => (
+              <tr key={index}>
+                <td>
+                  {index}
+                </td>
+                <td>
+                  {job.title}
+                </td>
+                <td>
+                  {job.location}
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </Table>
       <p>Add more</p>
       <input
         type="text"
         placeholder="title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        />
+      />
         <input
         type="text"
         placeholder="location"
