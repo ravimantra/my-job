@@ -10,7 +10,7 @@ const {
 const addNewJobAction = (payload = {}) => (dispatch) => {
   return actionMethod(
     dispatch,
-    'http://localhost:9000/',
+    'http://localhost:9000/job',
     'POST',
     ADD_NEW_JOB_REQUEST,
     ADD_NEW_JOB_SUCCESS,
