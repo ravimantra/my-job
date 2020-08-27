@@ -4,6 +4,9 @@ import {
   Switch, BrowserRouter as Router,
   Route, Redirect
 } from "react-router-dom";
+import {
+  Container, Row
+} from 'react-bootstrap';
 import { createBrowserHistory } from 'history'
 import { store } from './store/configureStore';
 import getRoutes from './routes/index';
@@ -15,9 +18,13 @@ const App = () => (
   <Provider store={store}>
     <Router history={history}>
       <Switch>
-        <Route exact path="/" component={Login} />
-        {getRoutes()}
-        <Route render={document.cookie ? () => <Redirect to={{pathname: "/dashboard"}} /> : () => <Redirect to={{pathname: "/"}} />} />
+        <Container fluid="md">
+          <Row md="auto">
+            <Route exact path="/" component={Login} />
+            {getRoutes()}
+            <Route render={document.cookie ? () => <Redirect to={{pathname: "/dashboard"}} /> : () => <Redirect to={{pathname: "/"}} />} />
+         </Row>
+        </Container>
       </Switch>
     </Router>
   </Provider>

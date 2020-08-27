@@ -1,37 +1,68 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { Table, Card } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from "react-router-dom";
+import {
+  Table, Card, Button,
+  Row, Col, Modal
+} from 'react-bootstrap';
 import getAllJobsAction from './getAllJobsAction';
-import addNewJobAction from './addNewJobAction';
+import deleteJobAction from './deleteJobAction';
 import lang from '../../localLang';
+import { actionType } from '../../constants/constants';
 
-const Jobs = ({
-  getAllJobs,
-  allJobs = [],
-  addNewJob,
-  statusCode
-}) => {
-  const { JOB_TITLE, JOB_LOCATION } = lang;
-  const [title, setTitle] = useState('');
-  const [location, setLocation] = useState('');
+const { SET_SINGLE_JOB, GET_SELECTED_JOB } = actionType;
+const { JOB_TITLE, JOB_LOCATION } = lang;
+
+const Jobs = () => {
+  const [show, setShow] = useState(false);
+  const [selectedJob, setSelectedJob] = useState({});
+  const allJobs = useSelector(state => state.getAllJobsReducer.allJobs || []);
+  const statusCode = useSelector(state => state.singleJobReducer.status || '')
+  const dispatch = useDispatch();
+  const history = useHistory();
   useEffect (() => {
-    getAllJobs();
+    dispatch(getAllJobsAction());
   }, []);
+
   useEffect (() => {
     if (statusCode === 200) {
-      getAllJobs();
+      setShow(false);
+      dispatch(getAllJobsAction());
     }
   }, [statusCode]);
-  const submitJob = () => addNewJob({ title, location });
+
+  function onHandleDeleteJob (job) {
+    setSelectedJob(job);
+    setShow(true);
+  }
+
+  function onHandleAddNewJob () {
+    dispatch({ type: SET_SINGLE_JOB });
+    history.push('/add-job')
+  }
+
+  function onHandleEitJob (job) {
+    dispatch({ type: GET_SELECTED_JOB, data: job });
+    history.push('/edit-job')
+  }
+
   return (
     <React.Fragment>
-      <button
-        onClick={() => document.cookie = ''}
-      >
-        logout
-      </button>
       <Card>
-        <Card.Header>All Jobs</Card.Header>
+        <Card.Header>
+          <Row>
+            <Col xs={12} md={8}>
+              All Jobs
+            </Col>
+            <Col xs={6} md={4}>
+              <Button
+                onClick={onHandleAddNewJob}
+              >
+                Add new job
+              </Button>
+            </Col>
+          </Row>
+        </Card.Header>
           <Card.Body>
             <Table striped bordered hover>
               <thead>
@@ -57,14 +88,20 @@ const Jobs = ({
                         {job.location}
                       </td>
                       <td>
-                        <button>
+                        <Button
+                          variant="outline-primary"
+                          onClick={() => onHandleEitJob(job)}
+                        >
                           Edit
-                        </button>
+                        </Button>
                       </td>
                       <td>
-                        <button>
+                        <Button
+                          variant="outline-primary"
+                          onClick={() => onHandleDeleteJob(job)}
+                        >
                           Delete
-                        </button>
+                        </Button>
                       </td>
                     </tr>
                   ))
@@ -73,45 +110,22 @@ const Jobs = ({
             </Table>
         </Card.Body>
       </Card>
-      <Card>
-        <Card.Header>Add New Jobs</Card.Header>
-          <Card.Body>
-            <input
-              type="text"
-              placeholder="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="location"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              />
-            <button
-              onClick={submitJob}
-            >
-              Add
-            </button>
-        </Card.Body>
-      </Card>
+      <Modal show={show} onHide={() => setShow(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>{selectedJob.title}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure to delete this job?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShow(false)}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={() => dispatch(deleteJobAction({ id: selectedJob._id }))}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </React.Fragment>
   )
 }
 
-export const mapStateToProps = state => {
-  return {
-    allJobs: state.getAllJobsReducer.allJobs || [],
-    statusCode: state.addNewJobReducer.status
-  }
-}
-export const mapDispatchToProps = dispatch => ({
-  getAllJobs: () => {
-    dispatch(getAllJobsAction())
-  },
-  addNewJob: (payload) => {
-    dispatch(addNewJobAction(payload))
-  }
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Jobs);
+export default Jobs;

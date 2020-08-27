@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import getAllJobsReducer from './components/Jobs/getAllJobsReducer';
-import addNewJobReducer from './components/Jobs/addNewJobReducer';
+import singleJobReducer from './components/Jobs/singleJobReducer';
 
 export default combineReducers({
   getAllJobsReducer,
-  addNewJobReducer
+  singleJobReducer
 })
