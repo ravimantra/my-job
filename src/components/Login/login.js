@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import loginAction from './loginAction';
 
 const Login = ({
-  login
+  login,
+  history
 }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -11,7 +12,7 @@ const Login = ({
     login({ email, password }, (res)  => {
       if (res.token) {
         document.cookie = res.token;
-
+        history.push('/dashboard');
       } else {
         // TODO
       }

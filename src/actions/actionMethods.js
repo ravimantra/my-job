@@ -4,9 +4,8 @@ const actionMethod = (dispatch, url, method, requestType, successType, failureTy
   dispatch({ type: requestType, payload });
   httpService(method, url, payload)
     .then((response = {}) => {
-      console.log('data', response);
-      const { data = {} } = response;
-      return dispatch({ type: successType, data });
+      const { data = {}, status } = response;
+      return dispatch({ type: successType, data: { ...data, status} });
     })
     .catch((error) => {
       return dispatch({ type: failureType, error });

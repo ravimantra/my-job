@@ -9,7 +9,10 @@ const addNewJob = (state = {}, action) => {
   } = actionType;
   switch (type) {
     case ADD_NEW_JOB_REQUEST:
-      return state;
+      return {
+        ...state,
+        status: ''
+      };
     case ADD_NEW_JOB_SUCCESS:
       return data;
     case ADD_NEW_JOB_FAILURE:

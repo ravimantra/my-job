@@ -11,7 +11,9 @@ const getAllJobs = (state = {}, action) => {
     case GET_ALL_JOBS_REQUEST:
       return state;
     case GET_ALL_JOBS_SUCCESS:
-      return data;
+      return {
+        allJobs: data.allJobs
+      };
     case GET_ALL_JOBS_FAILURE:
       return data;
     default:
