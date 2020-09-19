@@ -22,6 +22,7 @@ const Jobs = () => {
   const history = useHistory();
   useEffect (() => {
     dispatch(getAllJobsAction());
+    setTimeout(() => console.log('pp'), 3000);
   }, []);
 
   useEffect (() => {
