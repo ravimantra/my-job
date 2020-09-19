@@ -22,8 +22,8 @@ const Jobs = () => {
   const history = useHistory();
   useEffect (() => {
     dispatch(getAllJobsAction());
-    setTimeout(() => console.log('pp'), 3000);
-  }, []);
+    setTimeout(() => console.log('ppxx'), 5000);
+  }, ['test']);
 
   useEffect (() => {
     if (statusCode === 200) {

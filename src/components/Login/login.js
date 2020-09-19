@@ -14,7 +14,7 @@ const Login = ({
         document.cookie = res.token;
         history.push('/dashboard');
       } else {
-        console.log('Test login ffail');
+        console.log('Test login fail');
       }
     })
   }
