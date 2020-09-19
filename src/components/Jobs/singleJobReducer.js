@@ -2,7 +2,6 @@ import { actionType } from '../../constants/constants'
 
 const addNewJob = (state = {}, action) => {
   const { type, data = {} } = action;
-  console.log(data);
   const {
     ADD_NEW_JOB_REQUEST,
     ADD_NEW_JOB_SUCCESS,
