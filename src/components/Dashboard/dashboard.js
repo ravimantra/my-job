@@ -1,5 +1,5 @@
 import React from 'react';
-import Jobs from '../Jobs/jobs';
+import Jobs from '../Jobs/Jobs';
 
 const Dashboard = () =>
   (

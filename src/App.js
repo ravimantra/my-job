@@ -11,6 +11,7 @@ import { createBrowserHistory } from 'history'
 import { store } from './store/configureStore';
 import getRoutes from './routes/index';
 import Login from './components/Login/login';
+import './App.scss';
 
 const history = createBrowserHistory();
 
@@ -18,8 +19,8 @@ const App = () => (
   <Provider store={store}>
     <Router history={history}>
       <Switch>
-        <Container fluid="md">
-          <Row md="auto">
+        <Container>
+          <Row className="app-container">
             <Route exact path="/" component={Login} />
             {getRoutes()}
             <Route render={document.cookie ? () => <Redirect to={{pathname: "/dashboard"}} /> : () => <Redirect to={{pathname: "/"}} />} />
