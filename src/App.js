@@ -10,7 +10,7 @@ import {
 import { createBrowserHistory } from 'history'
 import { store } from './store/configureStore';
 import getRoutes from './routes/index';
-import Login from './components/Login/login';
+import Login from './components/Auth/login';
 import './App.scss';
 
 const history = createBrowserHistory();

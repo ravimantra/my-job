@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import {
-  Card, Button, Form, Col, Container, Row
+  Card, Button, Form, Alert,
+  Col, Container, Row
 } from 'react-bootstrap';
-import loginAction from './loginAction';
+import loginAction from './authAction';
 
-const Login = ({
-  login,
-  history
-}) => {
+const Login = (props) => {
+  const { login, history } = props;
+  console.log('setScreen', props);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
-  const submitJob = () => {
+  const onHandleLogin = () => {
     setErrorMsg('');
     login({ email, password }, (res)  => {
       const { success, token, message } = res;
@@ -24,6 +24,7 @@ const Login = ({
       }
     })
   }
+  function onHandleRegister () { props.setScreen(false) }
   return (
     <Container className="my-auto">
       <Row>
@@ -31,6 +32,7 @@ const Login = ({
           <Card>
             <Card.Header>Login</Card.Header>
             <Card.Body>
+              {errorMsg ? <Alert variant="danger"> {errorMsg}</Alert> : ''}
               <Card.Text>
               <Form>
                 <Form.Group controlId="formBasicEmail">
@@ -52,9 +54,15 @@ const Login = ({
                   />
                 </Form.Group>
               </Form>
-              {errorMsg ? <p>{errorMsg}</p> : ''}
               </Card.Text>
-              <Button variant="primary" onClick={submitJob}>Login</Button>
+              <Row>
+                <Col sm={4}>
+                  <Button variant="primary" onClick={onHandleLogin}>Login</Button>
+                </Col>
+                <Col md={{ span: 4, offset: 4 }} className="d-flex justify-content-end">
+                  <Alert.Link onClick={onHandleRegister} href="javascript:void(0)">Sign up</Alert.Link>
+                </Col>
+              </Row>
             </Card.Body>
           </Card>
         </Col>
