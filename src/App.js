@@ -10,7 +10,7 @@ import {
 import { createBrowserHistory } from 'history'
 import { store } from './store/configureStore';
 import getRoutes from './routes/index';
-import Login from './components/Auth/login';
+import Auth from './components/Auth/auth';
 import './App.scss';
 
 const history = createBrowserHistory();
@@ -21,7 +21,7 @@ const App = () => (
       <Switch>
         <Container>
           <Row className="app-container">
-            <Route exact path="/" component={Login} />
+            <Route exact path="/" component={Auth} />
             {getRoutes()}
             <Route render={document.cookie ? () => <Redirect to={{pathname: "/dashboard"}} /> : () => <Redirect to={{pathname: "/"}} />} />
          </Row>

@@ -3,14 +3,13 @@ import React, { useState } from 'react';
 import Login from './login';
 import Register from './register';
 
-const auth = () => {
+const Auth = () => {
   const [loginScreen, setLoginScreen] = useState(true);
-  const setScreen = (isLogin) => setLoginScreen(isLogin);
-  return (
-    <div>
-      {loginScreen ? <Login setScreen={setScreen} /> : <Register setScreen={setScreen} />}
-    </div>
+  return loginScreen ? (
+    <Login setScreen={(isLogin) => setLoginScreen(isLogin)} />
+  ) : (
+    <Register setScreen={(isLogin) => setLoginScreen(isLogin)} />
   )
 }
 
-export default auth
+export default Auth;

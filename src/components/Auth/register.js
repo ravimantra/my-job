@@ -4,30 +4,29 @@ import {
   Card, Button, Form, Alert,
   Col, Container, Row
 } from 'react-bootstrap';
-import loginAction from './registerAction';
+import authAction from './authAction';
 
-const Register = ({ login, history, setScreen }) => {
+const Register = ({ register, history, setScreen }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const onHandleRegister = () => {
+    setErrorMsg('');
     if(password != repeatPassword) {
       setErrorMsg('Kindly enter same password');
     }
-    // setErrorMsg('');
-    // login({ email, password }, (res)  => {
-    //   const { success, token, message } = res;
-    //   if (success && token) {
-    //     document.cookie = res.token;
-    //     history.push('/dashboard');
-    //   } else {
-    //     setErrorMsg(message);
-    //   }
-    // })
+    register({ name, email, password }, (res)  => {
+      const { success, message } = res;
+      if (success) {
+        document.cookie = res.token;
+        history.push('/login');
+      } else {
+        setErrorMsg(message);
+      }
+    })
   }
-  function onHandleLogin () { setScreen(true) }
   return (
     <Container className="my-auto">
       <Row>
@@ -38,7 +37,7 @@ const Register = ({ login, history, setScreen }) => {
               {errorMsg ? <Alert variant="danger"> {errorMsg}</Alert> : ''}
               <Card.Text>
               <Form>
-                <Form.Group controlId="formBasicEmail">
+                <Form.Group>
                   <Form.Label>Full name</Form.Label>
                   <Form.Control
                     type="text"
@@ -47,7 +46,7 @@ const Register = ({ login, history, setScreen }) => {
                     onChange={(e) => setName(e.target.value)}
                   />
                 </Form.Group>
-                <Form.Group controlId="formBasicEmail">
+                <Form.Group>
                   <Form.Label>Email address</Form.Label>
                   <Form.Control
                     type="email"
@@ -56,7 +55,7 @@ const Register = ({ login, history, setScreen }) => {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </Form.Group>
-                <Form.Group controlId="formBasicPassword">
+                <Form.Group>
                   <Form.Label>Password</Form.Label>
                   <Form.Control
                     type="password"
@@ -65,7 +64,7 @@ const Register = ({ login, history, setScreen }) => {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </Form.Group>
-                <Form.Group controlId="formBasicPassword">
+                <Form.Group>
                   <Form.Label>Repeat assword</Form.Label>
                   <Form.Control
                     type="password"
@@ -81,7 +80,7 @@ const Register = ({ login, history, setScreen }) => {
                   <Button variant="primary" onClick={onHandleRegister}>Register</Button>
                 </Col>
                 <Col md={{ span: 4, offset: 4 }} className="d-flex justify-content-end">
-                  <Alert.Link onClick={onHandleLogin} href="javascript:void(0)">Login</Alert.Link>
+                  <Alert.Link onClick={() => setScreen(true)} href="javascript:void(0)">Login</Alert.Link>
                 </Col>
               </Row>
             </Card.Body>
@@ -93,8 +92,8 @@ const Register = ({ login, history, setScreen }) => {
 }
 
 export const mapDispatchToProps = dispatch => ({
-  login: (payload, cb) => {
-    dispatch(loginAction(payload, cb))
+  register: (payload, cb) => {
+    dispatch(authAction(payload, cb))
   }
 })
 

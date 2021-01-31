@@ -4,11 +4,9 @@ import {
   Card, Button, Form, Alert,
   Col, Container, Row
 } from 'react-bootstrap';
-import loginAction from './authAction';
+import authAction from './authAction';
 
-const Login = (props) => {
-  const { login, history } = props;
-  console.log('setScreen', props);
+const Login = ({ login, history, setScreen }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
@@ -24,7 +22,6 @@ const Login = (props) => {
       }
     })
   }
-  function onHandleRegister () { props.setScreen(false) }
   return (
     <Container className="my-auto">
       <Row>
@@ -35,7 +32,7 @@ const Login = (props) => {
               {errorMsg ? <Alert variant="danger"> {errorMsg}</Alert> : ''}
               <Card.Text>
               <Form>
-                <Form.Group controlId="formBasicEmail">
+                <Form.Group>
                   <Form.Label>Email address</Form.Label>
                   <Form.Control
                     type="email"
@@ -44,7 +41,7 @@ const Login = (props) => {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </Form.Group>
-                <Form.Group controlId="formBasicPassword">
+                <Form.Group>
                   <Form.Label>Password</Form.Label>
                   <Form.Control
                     type="password"
@@ -60,7 +57,7 @@ const Login = (props) => {
                   <Button variant="primary" onClick={onHandleLogin}>Login</Button>
                 </Col>
                 <Col md={{ span: 4, offset: 4 }} className="d-flex justify-content-end">
-                  <Alert.Link onClick={onHandleRegister} href="javascript:void(0)">Sign up</Alert.Link>
+                  <Alert.Link onClick={() => setScreen(false)} href="javascript:void(0)">Sign up</Alert.Link>
                 </Col>
               </Row>
             </Card.Body>
@@ -73,7 +70,7 @@ const Login = (props) => {
 
 export const mapDispatchToProps = dispatch => ({
   login: (payload, cb) => {
-    dispatch(loginAction(payload, cb))
+    dispatch(authAction(payload, cb))
   }
 })
 

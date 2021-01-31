@@ -1,12 +1,14 @@
 import loginActionMethods from '../../actions/loginActionMethods';
 
-const loginAction = (payload = {}, cb) => () => {
+const authAction = (payload = {}, cb) => () => {
+  const { name } = payload;
+  const URL = payload.hasOwnProperty('name') ? 'http://localhost:9000/user/register' : 'http://localhost:9000/user/login'; 
   return loginActionMethods(
-    'http://localhost:9000/user/login',
+    URL,
     'POST',
     payload,
     cb
   );
 };
 
-export default loginAction;
+export default authAction;
