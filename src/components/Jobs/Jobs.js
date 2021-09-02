@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import {
   Table, Card, Button,
-  Row, Col, Modal
+  Row, Col, Modal, Form
 } from 'react-bootstrap';
 import getAllJobsAction from './getAllJobsAction';
 import deleteJobAction from './deleteJobAction';
@@ -16,6 +16,7 @@ const { JOB_TITLE, JOB_LOCATION } = lang;
 const Jobs = () => {
   const [show, setShow] = useState(false);
   const [selectedJob, setSelectedJob] = useState({});
+  const [allSelectedJob, setAllSelectedJob] = useState([]);
   const allJobs = useSelector(state => state.getAllJobsReducer.allJobs || []);
   const statusCode = useSelector(state => state.singleJobReducer.status || '')
   const dispatch = useDispatch();
@@ -44,6 +45,12 @@ const Jobs = () => {
   function onHandleEitJob (job) {
     dispatch({ type: GET_SELECTED_JOB, data: job });
     history.push('/edit-job')
+  }
+
+  function multipleDelete (e, job) {
+    if(e.target.checked) {
+      setAllSelectedJob([...allSelectedJob, job]);
+    }
   }
 
   return (
@@ -79,7 +86,12 @@ const Jobs = () => {
                   allJobs.length && allJobs.map((job, index) => (
                     <tr key={index}>
                       <td>
-                        {index}
+                        <Form.Check
+                          type="checkbox"
+                          label=""
+                          onChange={e => multipleDelete(e, job)}
+                          id={`job-${index}`}
+                        />
                       </td>
                       <td>
                         {job.title}

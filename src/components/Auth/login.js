@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from "react-router-dom";
 import {
   Card, Button, Form, Alert,
   Col, Container, Row
 } from 'react-bootstrap';
 import authAction from './authAction';
 
-const Login = ({ login, history, setScreen }) => {
+const Login = ({ login, setScreen }) => {
+  const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const onHandleLogin = () => {
     setErrorMsg('');
     login({ email, password }, (res)  => {
-      const { success, token, message } = res;
-      if (success && token) {
-        document.cookie = res.token;
+      const { success, message } = res;
+      if (success) {
         history.push('/dashboard');
       } else {
         setErrorMsg(message);

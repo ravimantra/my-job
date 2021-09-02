@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from "react-router-dom";
 import {
   Card, Button, Form, Alert,
   Col, Container, Row
 } from 'react-bootstrap';
 import authAction from './authAction';
 
-const Register = ({ register, history, setScreen }) => {
+const Register = ({ register, setScreen }) => {
+  const history = useHistory();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,13 +16,12 @@ const Register = ({ register, history, setScreen }) => {
   const [errorMsg, setErrorMsg] = useState('');
   const onHandleRegister = () => {
     setErrorMsg('');
-    if(password != repeatPassword) {
+    if(password !== repeatPassword) {
       setErrorMsg('Kindly enter same password');
     }
     register({ name, email, password }, (res)  => {
       const { success, message } = res;
       if (success) {
-        document.cookie = res.token;
         history.push('/login');
       } else {
         setErrorMsg(message);

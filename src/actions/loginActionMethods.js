@@ -7,7 +7,8 @@ const loginActionMethod = (url, method, payload, cb) => {
     data: payload
   })
     .then((response) => {
-      const { data = {} } = response;
+      const { data = {}, headers } = response;
+      document.cookie = headers['auth-token'];
       if (typeof cb === 'function') {
         cb(data);
       }
