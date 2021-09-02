@@ -4,11 +4,11 @@ const loginActionMethod = (url, method, payload, cb) => {
   return axios({
     method: method,
     url: url,
-    data: payload
+    data: payload,
+    withCredentials: true
   })
     .then((response) => {
-      const { data = {}, headers } = response;
-      document.cookie = headers['auth-token'];
+      const { data = {} } = response;
       if (typeof cb === 'function') {
         cb(data);
       }
