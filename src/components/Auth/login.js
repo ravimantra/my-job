@@ -8,7 +8,7 @@ import {
 import { useDispatch } from 'react-redux';
 import authAction from './authAction';
 
-const Login = ({ login, setScreen }) => {
+const Login = ({ setScreen }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [email, setEmail] = useState('');
@@ -21,7 +21,7 @@ const Login = ({ login, setScreen }) => {
       if (success) {
         history.push('/dashboard');
         // TODO: replace with loader
-        window.location.reload();
+        // window.location.reload();
       } else {
         setErrorMsg(message);
       }

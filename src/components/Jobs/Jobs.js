@@ -30,6 +30,7 @@ const Jobs = () => {
       setShow(false);
       dispatch(getAllJobsAction());
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusCode]);
 
   function onHandleDeleteJob (job) {
@@ -61,7 +62,7 @@ const Jobs = () => {
             <Col xs={12} md={8}>
               All Jobs
             </Col>
-            <Col xs={6} md={4}>
+            <Col xs={6} md={4} className="flex justify-content-end">
               <Button
                 onClick={onHandleAddNewJob}
               >

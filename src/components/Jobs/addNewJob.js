@@ -26,7 +26,7 @@ const AddNewJob = () => {
   }
 
   return (
-    <Card>
+    <Card className="w100">
       <Card.Header>
         <Row>
           <Col xs={12} md={12}>

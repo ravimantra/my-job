@@ -32,9 +32,11 @@ const App = () => (
     <Router history={history}>
       <Switch>
         <Container>
+          <Row>
+            {document.cookie.match('(^|;)\\s*' + 'auth-token' + '\\s*=\\s*([^;]+)')?.pop() ? <Header /> : null}
+          </Row>
           <Row className="app-container">
             <Route exact path="/" component={Auth} />
-            {document.cookie.match('(^|;)\\s*' + 'auth-token' + '\\s*=\\s*([^;]+)')?.pop() ? <Header /> : null}
             {getRoutes()}
             <Route render={() => <Redirect to={{pathname: redirectPath()}} />} />
          </Row>

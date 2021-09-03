@@ -3,7 +3,7 @@ import Jobs from '../Jobs/Jobs';
 
 const Dashboard = () => {
   return (
-    <div id="dashboard">
+    <div id="dashboard" className="w100">
       <Jobs />
     </div>
   )
