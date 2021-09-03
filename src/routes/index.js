@@ -4,7 +4,7 @@ import AddNewJob from '../components/Jobs/addNewJob';
 import UpdateJob from '../components/Jobs/updateJob';
 import { Route, Redirect } from "react-router-dom";
 
-const allRoutes = [
+export const allRoutes = [
   {
     path: '/dashboard',
     component: Dashboard
@@ -22,7 +22,8 @@ const allRoutes = [
 const SecuredRoute = (props) => (
   <Route
     path={props.path}
-    render={data => document.cookie ? <props.component {...data}></props.component> : <Redirect to={{ pathname: '/' }} />}
+    exact
+    render={data => document.cookie.match('(^|;)\\s*' + 'auth-token' + '\\s*=\\s*([^;]+)')?.pop() ? <props.component {...data}></props.component> : <Redirect to={{ pathname: '/' }} />}
     >
   </Route>
 )

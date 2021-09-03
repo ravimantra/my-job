@@ -1,27 +1,31 @@
+/* eslint-disable no-script-url */
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import {
   Card, Button, Form, Alert,
   Col, Container, Row
 } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 import authAction from './authAction';
 
 const Login = ({ login, setScreen }) => {
+  const dispatch = useDispatch();
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const onHandleLogin = () => {
     setErrorMsg('');
-    login({ email, password }, (res)  => {
+    dispatch(authAction({ email, password }, (res)  => {
       const { success, message } = res;
       if (success) {
         history.push('/dashboard');
+        // TODO: replace with loader
+        window.location.reload();
       } else {
         setErrorMsg(message);
       }
-    })
+    }))
   }
   return (
     <Container className="my-auto">
@@ -69,10 +73,5 @@ const Login = ({ login, setScreen }) => {
   )
 }
 
-export const mapDispatchToProps = dispatch => ({
-  login: (payload, cb) => {
-    dispatch(authAction(payload, cb))
-  }
-})
 
-export default connect(null, mapDispatchToProps)(Login);
+export default Login;
